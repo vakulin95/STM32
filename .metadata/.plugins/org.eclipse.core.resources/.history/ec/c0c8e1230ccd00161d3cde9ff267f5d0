@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "stm32f4xx.h"
+#include "diag/Trace.h"
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wmissing-declarations"
+#pragma GCC diagnostic ignored "-Wreturn-type"
+
+void InitializePA5(void);
+
+int main(int argc, char* argv[])
+{
+	while(1);
+}
+
+void InitializePA5(void)
+{
+	GPIO_InitTypeDef PinA5;
+
+	__GPIOA_CLK_ENABLE();
+
+	PinA5.Pin = GPIO_PIN_5;
+	PinA5.Mode = GPIO_MODE_OUTPUT_PP;
+	PinA5.Speed = GPIO_SPEED_FREQ_LOW;
+	PinA5.Pull = GPIO_NOPULL;
+
+	HAL_GPIO_Init(GPIOA, &PinA5);
+
+}
+
+#pragma GCC diagnostic pop
+
+// ----------------------------------------------------------------------------

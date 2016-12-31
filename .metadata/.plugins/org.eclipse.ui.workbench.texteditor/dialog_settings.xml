@@ -2,19 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="CCR" key="selection"/>
+		<item value="mode" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="CCR"/>
-			<item value="Compare"/>
-			<item value="Compa"/>
-			<item value="TIM"/>
-			<item value="HAL_TIM_PWM_ConfigChannel"/>
-			<item value="GPIO_Alternate_function_selection"/>
-			<item value="HAL_TIM_PWM_Init"/>
+			<item value="Independent mode"/>
+			<item value="independent mode"/>
+			<item value="independent Mode"/>
+			<item value="Mode"/>
+			<item value="ADC_Mode"/>
+			<item value="Delay"/>
+			<item value="De"/>
+			<item value="GPIO_pins_define"/>
 		</list>
 		<list key="replacehistory">
 		</list>
@@ -23,7 +24,7 @@
 		<item value="351" key="DIALOG_WIDTH"/>
 		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 		<item value="415" key="DIALOG_HEIGHT"/>
-		<item value="1313" key="DIALOG_X_ORIGIN"/>
-		<item value="309" key="DIALOG_Y_ORIGIN"/>
+		<item value="1315" key="DIALOG_X_ORIGIN"/>
+		<item value="593" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>
