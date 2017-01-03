@@ -1,21 +1,9 @@
-//
-// This file is part of the GNU ARM Eclipse distribution.
-// Copyright (c) 2014 Liviu Ionescu.
-//
-
-// ----------------------------------------------------------------------------
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "stm32f4xx.h"
 #include "diag/Trace.h"
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic ignored "-Wmissing-declarations"
-#pragma GCC diagnostic ignored "-Wreturn-type"
-
-#define LED_NUM 4
+#define LED_NUM (4)
 
 int led_ind = 0;
 int direction = 1;
@@ -28,7 +16,7 @@ void InitializeButton(void);
 int UpdateInd(int);
 void ChangeDirection(void);
 
-int main(int argc, char* argv[])
+int main()
 {
 	InitializeLED(LED);
 	InitializeTimer();
@@ -37,10 +25,7 @@ int main(int argc, char* argv[])
 	HAL_NVIC_EnableIRQ(TIM2_IRQn);
 	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
-	// Infinite loop
-	while (1)
-	{
-	}
+	while(1);
 }
 
 void InitializeTimer(void)
@@ -48,38 +33,38 @@ void InitializeTimer(void)
 	RCC->CFGR &= ~(RCC_CFGR_SW);
 	RCC->CFGR |= RCC_CFGR_SW_HSE;
 
-    __TIM2_CLK_ENABLE();
+	__TIM2_CLK_ENABLE();
 
-    Timer.Instance = TIM2;
+	Timer.Instance = TIM2;
 
-    Timer.Init.Prescaler = 4000 - 1;
-    Timer.Init.CounterMode = TIM_COUNTERMODE_UP;
-    Timer.Init.Period = 1000;
+	Timer.Init.Prescaler = 4000 - 1;
+	Timer.Init.CounterMode = TIM_COUNTERMODE_UP;
+	Timer.Init.Period = 1000;
 
-    HAL_TIM_Base_Init(&Timer);
-    HAL_TIM_Base_Start_IT(&Timer);
+	HAL_TIM_Base_Init(&Timer);
+	HAL_TIM_Base_Start_IT(&Timer);
 }
 
 void InitializeLED(GPIO_InitTypeDef *L)
 {
 	int i;
 
-    __GPIOD_CLK_ENABLE();
+	__GPIOD_CLK_ENABLE();
 
-    L[0].Pin = GPIO_PIN_12;
-    L[1].Pin = GPIO_PIN_13;
-    L[2].Pin = GPIO_PIN_14;
-    L[3].Pin = GPIO_PIN_15;
+	L[0].Pin = GPIO_PIN_12;
+	L[1].Pin = GPIO_PIN_13;
+	L[2].Pin = GPIO_PIN_14;
+	L[3].Pin = GPIO_PIN_15;
 
-    for(i = 0; i < LED_NUM; i++)
-    {
-    	L[i].Mode = GPIO_MODE_OUTPUT_PP;
-    	L[i].Speed = GPIO_SPEED_HIGH;
-    	L[i].Pull = GPIO_NOPULL;
+	for(i = 0; i < LED_NUM; i++)
+	{
+		L[i].Mode = GPIO_MODE_OUTPUT_PP;
+		L[i].Speed = GPIO_SPEED_HIGH;
+		L[i].Pull = GPIO_NOPULL;
 		HAL_GPIO_Init(GPIOD, &L[i]);
-    }
+	}
 
-    HAL_GPIO_TogglePin(GPIOD, LED[0].Pin);
+	HAL_GPIO_TogglePin(GPIOD, LED[0].Pin);
 }
 
 void InitializeButton(void)
@@ -120,11 +105,13 @@ void ChangeDirection(void)
 	direction ? (direction = 0) : (direction = 1);
 }
 
+//--------------------------------------------------------
+
 void TIM2_IRQHandler(void)
 {
-    HAL_TIM_IRQHandler(&Timer);
+	HAL_TIM_IRQHandler(&Timer);
 
-    HAL_GPIO_TogglePin(GPIOD, LED[led_ind].Pin);
+	HAL_GPIO_TogglePin(GPIOD, LED[led_ind].Pin);
 	UpdateInd(direction);
 	HAL_GPIO_TogglePin(GPIOD, LED[led_ind].Pin);
 }
@@ -135,7 +122,3 @@ void EXTI0_IRQHandler(void)
 
 	ChangeDirection();
 }
-
-#pragma GCC diagnostic pop
-
-// ----------------------------------------------------------------------------

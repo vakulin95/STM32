@@ -3,12 +3,7 @@
 #include "stm32f4xx.h"
 #include "diag/Trace.h"
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic ignored "-Wmissing-declarations"
-#pragma GCC diagnostic ignored "-Wreturn-type"
-
-#define LED_NUM 				(4)
+#define LED_NUM (4)
 
 void InitPA5(void);
 void InitPA1(void);
@@ -22,7 +17,7 @@ ADC_ChannelConfTypeDef ADCchan;
 GPIO_InitTypeDef PA5ini, PA1ini;
 GPIO_InitTypeDef LED[LED_NUM];
 
-int main(int argc, char* argv[])
+int main()
 {
 	ConfigureADC();
 	InitLED(LED);
@@ -152,7 +147,3 @@ void SwitchLED(GPIO_InitTypeDef *L, int N)
 		HAL_GPIO_WritePin(GPIOD, L[i].Pin, GPIO_PIN_SET);
 	}
 }
-
-#pragma GCC diagnostic pop
-
-// ----------------------------------------------------------------------------

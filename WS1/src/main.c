@@ -1,27 +1,15 @@
-//
-// This file is part of the GNU ARM Eclipse distribution.
-// Copyright (c) 2014 Liviu Ionescu.
-//
-
-// ----------------------------------------------------------------------------
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "stm32f4xx.h"
 #include "diag/Trace.h"
 
-#define SWITCH_DELAY 1000000
+#define SWITCH_DELAY 	(1000000)
 
-#define SW_GREEN() (GPIOD->ODR |= GPIO_ODR_ODR_12)
-#define SW_ORANGE() (GPIOD->ODR |= GPIO_ODR_ODR_13)
-#define SW_RED() (GPIOD->ODR |= GPIO_ODR_ODR_14)
-#define SW_BLUE() (GPIOD->ODR |= GPIO_ODR_ODR_15)
-#define LED_OFF() (GPIOD->ODR = 0)
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic ignored "-Wmissing-declarations"
-#pragma GCC diagnostic ignored "-Wreturn-type"
+#define SW_GREEN() 		(GPIOD->ODR |= GPIO_ODR_ODR_12)
+#define SW_ORANGE() 	(GPIOD->ODR |= GPIO_ODR_ODR_13)
+#define SW_RED() 		(GPIOD->ODR |= GPIO_ODR_ODR_14)
+#define SW_BLUE() 		(GPIOD->ODR |= GPIO_ODR_ODR_15)
+#define LED_OFF() 		(GPIOD->ODR = 0)
 
 void PLLConf(int);
 void LEDInitialize(void);
@@ -29,7 +17,7 @@ void LEDLight(void);
 void ButInitialize(void);
 void SLKChange(void);
 
-int main(int argc, char* argv[])
+int main()
 {
 	int i;
 
@@ -38,22 +26,21 @@ int main(int argc, char* argv[])
 	LEDInitialize();
 	ButInitialize();
 
-  while (1)
-    {
-	  if(GPIOA->IDR & GPIO_IDR_IDR_0)
-	  {
-		  //trace_printf("Button pushed!\n");
+	while(1)
+	{
+		if(GPIOA->IDR & GPIO_IDR_IDR_0)
+		{
+			SW_RED();
+			for(i = 0; i < SWITCH_DELAY; i++)
+				;
+			LED_OFF();
 
-		  SW_RED();
-		  for(i = 0; i < SWITCH_DELAY; i++);
-		  LED_OFF();
-
-		  SLKChange();
-		  LEDLight();
-	  }
-	  else
-		  LEDLight();
-    }
+			SLKChange();
+			LEDLight();
+		}
+		else
+			LEDLight();
+	}
 }
 
 void PLLConf(int pllp)
@@ -141,7 +128,3 @@ void SLKChange(void)
 		RCC->CFGR |= RCC_CFGR_SW_HSI;
 	}
 }
-
-#pragma GCC diagnostic pop
-
-// ----------------------------------------------------------------------------

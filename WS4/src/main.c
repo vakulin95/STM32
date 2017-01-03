@@ -1,14 +1,7 @@
-// ----------------------------------------------------------------------------
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "stm32f4xx.h"
 #include "diag/Trace.h"
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic ignored "-Wmissing-declarations"
-#pragma GCC diagnostic ignored "-Wreturn-type"
 
 #define LED_NUM 				(4)
 
@@ -28,7 +21,7 @@ GPIO_InitTypeDef LED[LED_NUM];
 
 float LEDbritness = DEFAULT_TIM_PERIOD / 10;
 
-int main(int argc, char* argv[])
+int main()
 {
 	HardPWM(LEDbritness);
 	InitializeLED(LED);
@@ -50,8 +43,6 @@ void SystemClockConfig(void)
 {
 	RCC->CFGR &= ~(RCC_CFGR_SW);
 	RCC->CFGR |= RCC_CFGR_SW_HSE;
-
-	//SystemCoreClockUpdate();
 }
 
 void HardPWM(int imp_len)
@@ -164,8 +155,3 @@ void EXTI0_IRQHandler(void)
 
 	ChangeBritness();
 }
-
-
-#pragma GCC diagnostic pop
-
-// ----------------------------------------------------------------------------

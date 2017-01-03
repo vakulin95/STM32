@@ -1,4 +1,4 @@
-13:08:59 **** Incremental Build of configuration Debug for project WS2 ****
+20:01:25 **** Incremental Build of configuration Debug for project WS2 ****
 make all 
 Invoking: Cross ARM GNU Print Size
 arm-none-eabi-size --format=berkeley "WS2.elf"
@@ -7,5 +7,5 @@ arm-none-eabi-size --format=berkeley "WS2.elf"
 Finished building: WS2.siz
  
 
-13:08:59 Build Finished (took 100ms)
+20:01:25 Build Finished (took 84ms)
 

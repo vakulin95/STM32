@@ -1,4 +1,4 @@
-22:17:41 **** Incremental Build of configuration Debug for project WS4 ****
+20:09:35 **** Incremental Build of configuration Debug for project WS4 ****
 make all 
 Invoking: Cross ARM GNU Print Size
 arm-none-eabi-size --format=berkeley "WS4.elf"
@@ -7,5 +7,5 @@ arm-none-eabi-size --format=berkeley "WS4.elf"
 Finished building: WS4.siz
  
 
-22:17:41 Build Finished (took 66ms)
+20:09:35 Build Finished (took 71ms)
 
