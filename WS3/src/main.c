@@ -8,17 +8,23 @@
 #pragma GCC diagnostic ignored "-Wmissing-declarations"
 #pragma GCC diagnostic ignored "-Wreturn-type"
 
-void ConfigureADC(void);
+#define LED_NUM 				(4)
+
 void InitPA5(void);
 void InitPA1(void);
+void ConfigureADC(void);
+void InitLED(GPIO_InitTypeDef *L);
 
 ADC_HandleTypeDef ADCini;
+ADC_ChannelConfTypeDef ADCchan;
 GPIO_InitTypeDef PA5ini, PA1ini;
+GPIO_InitTypeDef LED[LED_NUM];
 int ADCval;
 
 int main(int argc, char* argv[])
 {
 	ConfigureADC();
+	InitLED(LED);
 
 	while(1)
 	{
@@ -30,8 +36,6 @@ int main(int argc, char* argv[])
 
 void InitPA5(void)
 {
-	//__GPIOA_CLK_ENABLE();
-
 	PA5ini.Pin = GPIO_PIN_5;
 	PA5ini.Mode = GPIO_MODE_OUTPUT_PP;
 	PA5ini.Speed = GPIO_SPEED_FREQ_LOW;
@@ -44,8 +48,6 @@ void InitPA5(void)
 
 void InitPA1(void)
 {
-	//__GPIOA_CLK_ENABLE();
-
 	PA1ini.Pin = GPIO_PIN_1;
 	PA1ini.Mode = GPIO_MODE_ANALOG;
 	PA1ini.Pull = GPIO_PULLUP;
@@ -55,19 +57,11 @@ void InitPA1(void)
 
 void ConfigureADC(void)
 {
-//    GPIO_InitTypeDef gpioInit;
-
     __GPIOA_CLK_ENABLE();
     __ADC1_CLK_ENABLE();
 
-    InitPA5();
-    InitPA1();
-
-//    gpioInit.Pin = GPIO_PIN_1;
-//    gpioInit.Mode = GPIO_MODE_ANALOG;
-//    gpioInit.Pull = GPIO_PULLUP;
-//
-//    HAL_GPIO_Init(GPIOA, &gpioInit);
+    InitPA5();	// output
+    InitPA1();	// input
 
     ADCini.Instance = ADC1;
     ADCini.Init.ClockPrescaler = ADC_CLOCKPRESCALER_PCLK_DIV2;
@@ -81,14 +75,34 @@ void ConfigureADC(void)
 
     HAL_ADC_Init(&ADCini);
 
-    ADC_ChannelConfTypeDef adcChannel;
+    ADCchan.Channel = ADC_CHANNEL_1;
+    ADCchan.Rank = 1;
+    ADCchan.SamplingTime = ADC_SAMPLETIME_144CYCLES;
+    ADCchan.Offset = 0;
 
-    adcChannel.Channel = ADC_CHANNEL_1;
-    adcChannel.Rank = 1;
-    adcChannel.SamplingTime = ADC_SAMPLETIME_144CYCLES;
-    adcChannel.Offset = 0;
+    HAL_ADC_ConfigChannel(&ADCini, &ADCchan);
+}
 
-    HAL_ADC_ConfigChannel(&ADCini, &adcChannel);
+void InitLED(GPIO_InitTypeDef *L)
+{
+	int i;
+
+    __GPIOD_CLK_ENABLE();
+
+    L[0].Pin = GPIO_PIN_12;
+    L[1].Pin = GPIO_PIN_13;
+    L[2].Pin = GPIO_PIN_14;
+    L[3].Pin = GPIO_PIN_15;
+
+    for(i = 0; i < LED_NUM; i++)
+    {
+    	L[i].Mode = GPIO_MODE_OUTPUT_PP ;
+    	L[i].Speed = GPIO_SPEED_FREQ_LOW;
+    	L[i].Pull = GPIO_NOPULL;
+
+		HAL_GPIO_Init(GPIOD, &L[i]);
+		HAL_GPIO_WritePin(GPIOD, L[i].Pin, GPIO_PIN_SET);
+    }
 }
 
 #pragma GCC diagnostic pop

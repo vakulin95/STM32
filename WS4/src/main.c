@@ -118,7 +118,6 @@ void InitializeLED(GPIO_InitTypeDef *L)
     }
 }
 
-
 void InitializeButton(void)
 {
 
