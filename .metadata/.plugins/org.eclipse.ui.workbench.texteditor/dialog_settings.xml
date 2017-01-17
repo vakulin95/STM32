@@ -2,22 +2,24 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="ADCchan" key="selection"/>
+		<item value="ConfigureLED" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="adcChannel"/>
-			<item value="g_ADCValue"/>
-			<item value="ADC"/>
-			<item value="g_AdcHandle"/>
-			<item value="Independent mode"/>
-			<item value="independent mode"/>
-			<item value="independent Mode"/>
-			<item value="Mode"/>
+			<item value="InitLED"/>
+			<item value="Timer"/>
+			<item value="TIM_HandleTypeDef"/>
+			<item value="HAL_TIM_Base_Init"/>
+			<item value="TIM"/>
+			<item value="HAL_ADC_Start"/>
+			<item value="DAC_CHANNEL_1"/>
+			<item value="DAC_Start"/>
 		</list>
 		<list key="replacehistory">
+			<item value="ConfigureLED"/>
+			<item value="TIM2ini"/>
 			<item value="ADCchan"/>
 			<item value="ADCval"/>
 			<item value="ADCini"/>

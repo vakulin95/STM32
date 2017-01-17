@@ -16,7 +16,7 @@ void ConfigureTIM2()
 
 	TIM2ini.Instance = TIM2;
 
-	TIM2ini.Init.Prescaler = HSE_VALUE / 2000 - 1;
+	TIM2ini.Init.Prescaler = DEFAULT_TIM_PRESCALER - 1;
 	TIM2ini.Init.CounterMode = TIM_COUNTERMODE_UP;
 	TIM2ini.Init.Period = DEFAULT_TIM_PERIOD;
 

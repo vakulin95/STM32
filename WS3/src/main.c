@@ -75,26 +75,26 @@ int GetADC(int ADCval)
 {
 	int Y = 0;
 
-	if(!ADCval)
+	if(ADCval >= 0 && ADCval < 51)
 	{
 		goto ret;
 	}
-	else if(ADCval > 0 && ADCval < 64)
+	else if(ADCval >= 51 && ADCval < 102)
 	{
 		Y = 1;
 		goto ret;
 	}
-	else if(ADCval >= 64 && ADCval < 128)
+	else if(ADCval >= 102 && ADCval < 153)
 	{
 		Y = 2;
 		goto ret;
 	}
-	else if(ADCval >= 128 && ADCval < 192)
+	else if(ADCval >= 153 && ADCval < 204)
 	{
 		Y = 3;
 		goto ret;
 	}
-	else if(ADCval >= 192 && ADCval < 256)
+	else if(ADCval >= 204 && ADCval <= 255)
 	{
 		Y = 4;
 		goto ret;

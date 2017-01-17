@@ -10,7 +10,8 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
-#define DEFAULT_TIM_PERIOD 	(5)
+#define DEFAULT_TIM_PRESCALER	(4000)
+#define DEFAULT_TIM_PERIOD 		(10)
 
 TIM_HandleTypeDef TIM2ini;
 

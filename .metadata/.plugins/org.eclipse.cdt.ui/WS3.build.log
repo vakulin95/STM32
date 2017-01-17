@@ -1,4 +1,4 @@
-19:23:16 **** Incremental Build of configuration Debug for project WS3 ****
+20:14:49 **** Incremental Build of configuration Debug for project WS3 ****
 make all 
 Invoking: Cross ARM GNU Print Size
 arm-none-eabi-size --format=berkeley "WS3.elf"
@@ -7,5 +7,5 @@ arm-none-eabi-size --format=berkeley "WS3.elf"
 Finished building: WS3.siz
  
 
-19:23:16 Build Finished (took 119ms)
+20:14:49 Build Finished (took 110ms)
 

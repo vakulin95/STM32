@@ -3,15 +3,27 @@
 	<item value="382" key="org.eclipse.cdt.uiformatter_pagemodify_dialog.preferred_x"/>
 	<item value="98" key="org.eclipse.cdt.uiformatter_pagemodify_dialog.preferred_y"/>
 	<item value="0" key="org.eclipse.cdt.uiformatter_page.white_space_tab_page.node"/>
+	<item value="Default C source template" key="LastUsedSourceTemplate"/>
 	<item value="1433" key="org.eclipse.cdt.uiformatter_pagemodify_dialog.preferred_width"/>
 	<item value="716" key="org.eclipse.cdt.uiformatter_pagemodify_dialog.preferred_height"/>
 	<item value="0" key="org.eclipse.cdt.uiformatter_page.white_space.c_view.inner"/>
+	<item value="Default C header template" key="LastUsedHeaderTemplate"/>
 	<item value="1" key="org.eclipse.cdt.uiformatter_page.line_wrapping_tab_page.last_category_index"/>
 	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration.internal">
 		<item value="162" key="size.height"/>
 		<item value="673" key="size.width"/>
 	</section>
 	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration">
+	</section>
+	<section name="NewClassWizardPage">
+		<item value="true" key="stubSelected1"/>
+		<item value="true" key="stubVirtual1"/>
+		<item value="false" key="namespaceSelected"/>
+		<item value="false" key="stubInline0"/>
+		<item value="false" key="stubInline1"/>
+		<item value="" key="namespace"/>
+		<item value="false" key="testFileSelected"/>
+		<item value="true" key="stubSelected0"/>
 	</section>
 	<section name="completion_proposal_size">
 	</section>
