@@ -1,11 +1,11 @@
-20:06:47 **** Incremental Build of configuration Debug for project WS3 ****
+17:06:16 **** Incremental Build of configuration Debug for project WS3 ****
 make all 
 Invoking: Cross ARM GNU Print Size
 arm-none-eabi-size --format=berkeley "WS3.elf"
    text	   data	    bss	    dec	    hex	filename
-  10335	    160	    624	  11119	   2b6f	WS3.elf
+  11039	    160	    644	  11843	   2e43	WS3.elf
 Finished building: WS3.siz
  
 
-20:06:47 Build Finished (took 87ms)
+17:06:16 Build Finished (took 76ms)
 

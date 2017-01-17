@@ -7,26 +7,41 @@
 
 void InitPA5(void);
 void InitPA1(void);
+void ConfigurePins(void);
 void ConfigureADC(void);
+void ConfigureDAC(void);;
 void InitLED(GPIO_InitTypeDef *L);
 int GetADC(int ADCval);
 void SwitchLED(GPIO_InitTypeDef *L, int N);
 
 ADC_HandleTypeDef ADCini;
+DAC_HandleTypeDef DACini;
 ADC_ChannelConfTypeDef ADCchan;
 GPIO_InitTypeDef PA5ini, PA1ini;
 GPIO_InitTypeDef LED[LED_NUM];
 
 int main()
 {
+	ConfigurePins();
 	ConfigureADC();
+	ConfigureDAC();
 	InitLED(LED);
+
+	__HAL_DAC_ENABLE(&DACini, DAC_CHANNEL_2);
 
 	while(1)
 	{
+		//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+		HAL_DAC_Start(&DACini, DAC_CHANNEL_2);
+		HAL_DAC_SetValue(&DACini, DAC_CHANNEL_2, DAC_ALIGN_8B_R, 100);
+
+		//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+
 		HAL_ADC_Start(&ADCini);
 		while(!(ADC1->SR & ADC_SR_EOC));
 		SwitchLED(LED, GetADC(ADC1->DR));
+
+		HAL_DAC_Stop(&DACini, DAC_CHANNEL_2);
 	}
 }
 
@@ -35,7 +50,7 @@ void InitPA5(void)
 	PA5ini.Pin = GPIO_PIN_5;
 	PA5ini.Mode = GPIO_MODE_OUTPUT_PP;
 	PA5ini.Speed = GPIO_SPEED_FREQ_LOW;
-	PA5ini.Pull = GPIO_PULLUP;
+	PA5ini.Pull = GPIO_NOPULL; //GPIO_PULLUP;
 
 	HAL_GPIO_Init(GPIOA, &PA5ini);
 
@@ -51,13 +66,17 @@ void InitPA1(void)
 	HAL_GPIO_Init(GPIOA, &PA1ini);
 }
 
-void ConfigureADC(void)
+void ConfigurePins(void)
 {
-    __GPIOA_CLK_ENABLE();
-    __ADC1_CLK_ENABLE();
+	__GPIOA_CLK_ENABLE();
 
     InitPA5();	// output
     InitPA1();	// input
+}
+
+void ConfigureADC(void)
+{
+    __ADC1_CLK_ENABLE();
 
     ADCini.Instance = ADC1;
     ADCini.Init.ClockPrescaler = ADC_CLOCKPRESCALER_PCLK_DIV2;
@@ -77,6 +96,20 @@ void ConfigureADC(void)
     ADCchan.Offset = 0;
 
     HAL_ADC_ConfigChannel(&ADCini, &ADCchan);
+}
+
+void ConfigureDAC(void)
+{
+	__DAC_CLK_ENABLE();
+	DAC_ChannelConfTypeDef sConfig;
+
+	DACini.Instance = DAC;
+
+	HAL_DAC_Init(&DACini);
+
+	sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
+	sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
+	HAL_DAC_ConfigChannel(&DACini, &sConfig, DAC_CHANNEL_2);
 }
 
 void InitLED(GPIO_InitTypeDef *L)
