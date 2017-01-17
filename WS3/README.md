@@ -10,4 +10,4 @@
 
 ### Info
 
-In this task DAC chanel configured on PA5 and PA4 configured as a simple output pin to generate the highest possible signal. 
+In this task DAC chanel configured on PA5; and PA4 configured as a simple output pin to generate the highest possible signal. 
