@@ -1,0 +1,72 @@
+/*
+ * pins.c
+ *
+ *  Created on: 17 янв. 2017 г.
+ *      Author: artyom
+ */
+
+#include "pins.h"
+
+void InitPA5(void)
+{
+	PA5ini.Pin = GPIO_PIN_5;
+	PA5ini.Mode = GPIO_MODE_OUTPUT_PP;
+	PA5ini.Pull = GPIO_PULLUP;
+
+	HAL_GPIO_Init(GPIOA, &PA5ini);
+
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+}
+
+void InitPA1(void)
+{
+	PA1ini.Pin = GPIO_PIN_1;
+	PA1ini.Mode = GPIO_MODE_ANALOG;
+	PA1ini.Pull = GPIO_PULLUP;
+
+	HAL_GPIO_Init(GPIOA, &PA1ini);
+}
+
+void ConfigurePins(void)
+{
+	__GPIOA_CLK_ENABLE();
+
+    InitPA5();	// output
+    InitPA1();	// input
+}
+
+void ConfigureLED(GPIO_InitTypeDef *L)
+{
+	int i;
+
+    __GPIOD_CLK_ENABLE();
+
+    L[0].Pin = GPIO_PIN_12;
+    L[1].Pin = GPIO_PIN_13;
+    L[2].Pin = GPIO_PIN_14;
+    L[3].Pin = GPIO_PIN_15;
+
+    for(i = 0; i < LED_NUM; i++)
+    {
+    	L[i].Mode = GPIO_MODE_OUTPUT_PP ;
+    	L[i].Speed = GPIO_SPEED_HIGH;
+    	L[i].Pull = GPIO_NOPULL;
+
+		HAL_GPIO_Init(GPIOD, &L[i]);
+    }
+}
+
+void SwitchLED(GPIO_InitTypeDef *L, int N)
+{
+	int i;
+
+	for(i = 0; i < LED_NUM; i++)
+	{
+		HAL_GPIO_WritePin(GPIOD, L[i].Pin, GPIO_PIN_RESET);
+	}
+
+	for(i = 0; i < N; i++)
+	{
+		HAL_GPIO_WritePin(GPIOD, L[i].Pin, GPIO_PIN_SET);
+	}
+}

@@ -1,0 +1,17 @@
+/*
+ * libs.h
+ *
+ *  Created on: 17 янв. 2017 г.
+ *      Author: artyom
+ */
+
+#ifndef LIBS_H_
+#define LIBS_H_
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "stm32f4xx.h"
+#include "timer.h"
+#include "diag/Trace.h"
+
+#endif /* LIBS_H_ */

@@ -1,0 +1,14 @@
+/*
+ * timer.h
+ *
+ *  Created on: 17 янв. 2017 г.
+ *      Author: artyom
+ */
+
+#ifndef TIMER_H_
+#define TIMER_H_
+
+
+int testval;
+
+#endif /* TIMER_H_ */

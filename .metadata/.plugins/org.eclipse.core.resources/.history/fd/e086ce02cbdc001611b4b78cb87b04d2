@@ -1,0 +1,20 @@
+/*
+ * timer.cpp
+ *
+ *  Created on: 17 янв. 2017 г.
+ *      Author: artyom
+ */
+
+#include "timer.h"
+
+timer::timer()
+{
+	// TODO Auto-generated constructor stub
+
+}
+
+timer::~timer()
+{
+	// TODO Auto-generated destructor stub
+}
+

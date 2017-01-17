@@ -1,0 +1,24 @@
+/*
+ * pins.h
+ *
+ *  Created on: 17 янв. 2017 г.
+ *      Author: artyom
+ */
+
+#include "stm32f4xx.h"
+
+#ifndef PINS_H_
+#define PINS_H_
+
+#define LED_NUM 			(4)
+
+GPIO_InitTypeDef PA5ini, PA1ini;
+GPIO_InitTypeDef LED[LED_NUM];
+
+void InitPA5(void);
+void InitPA1(void);
+void ConfigurePins(void);
+void ConfigureLED(GPIO_InitTypeDef *L);
+void SwitchLED(GPIO_InitTypeDef *L, int N);
+
+#endif /* PINS_H_ */
