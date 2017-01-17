@@ -3,46 +3,42 @@
 #include "stm32f4xx.h"
 #include "diag/Trace.h"
 
-#define LED_NUM (4)
+#define LED_NUM 			(4)
+#define DEFAULT_TIM_PERIOD 	(10)
 
 void InitPA5(void);
 void InitPA1(void);
 void ConfigurePins(void);
 void ConfigureADC(void);
-void ConfigureDAC(void);;
-void InitLED(GPIO_InitTypeDef *L);
+void ConfigureDAC(void);
+void ConfigureTIM2(void);
+void ConfigureLED(GPIO_InitTypeDef *L);
+void SetDAC(void);
 int GetADC(int ADCval);
 void SwitchLED(GPIO_InitTypeDef *L, int N);
 
 ADC_HandleTypeDef ADCini;
-DAC_HandleTypeDef DACini;
 ADC_ChannelConfTypeDef ADCchan;
+DAC_HandleTypeDef DACini;
+
+TIM_HandleTypeDef TIM2ini;
 GPIO_InitTypeDef PA5ini, PA1ini;
 GPIO_InitTypeDef LED[LED_NUM];
+
+int DACval = 0;
+int dir = 1;
 
 int main()
 {
 	ConfigurePins();
 	ConfigureADC();
 	ConfigureDAC();
-	InitLED(LED);
+	ConfigureTIM2();
+	ConfigureLED(LED);
 
-	__HAL_DAC_ENABLE(&DACini, DAC_CHANNEL_2);
+	HAL_NVIC_EnableIRQ(TIM2_IRQn);
 
-	while(1)
-	{
-		//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-		HAL_DAC_Start(&DACini, DAC_CHANNEL_2);
-		HAL_DAC_SetValue(&DACini, DAC_CHANNEL_2, DAC_ALIGN_8B_R, 100);
-
-		//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-
-		HAL_ADC_Start(&ADCini);
-		while(!(ADC1->SR & ADC_SR_EOC));
-		SwitchLED(LED, GetADC(ADC1->DR));
-
-		HAL_DAC_Stop(&DACini, DAC_CHANNEL_2);
-	}
+	while(1);
 }
 
 void InitPA5(void)
@@ -101,18 +97,30 @@ void ConfigureADC(void)
 void ConfigureDAC(void)
 {
 	__DAC_CLK_ENABLE();
-	DAC_ChannelConfTypeDef sConfig;
 
 	DACini.Instance = DAC;
 
 	HAL_DAC_Init(&DACini);
-
-	sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
-	sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
-	HAL_DAC_ConfigChannel(&DACini, &sConfig, DAC_CHANNEL_2);
 }
 
-void InitLED(GPIO_InitTypeDef *L)
+void ConfigureTIM2()
+{
+	RCC->CFGR &= ~(RCC_CFGR_SW);
+	RCC->CFGR |= RCC_CFGR_SW_HSE;
+
+	__TIM2_CLK_ENABLE();
+
+	TIM2ini.Instance = TIM2;
+
+	TIM2ini.Init.Prescaler = HSE_VALUE / 2000 - 1;
+	TIM2ini.Init.CounterMode = TIM_COUNTERMODE_UP;
+	TIM2ini.Init.Period = DEFAULT_TIM_PERIOD;
+
+	HAL_TIM_Base_Init(&TIM2ini);
+	HAL_TIM_Base_Start_IT(&TIM2ini);
+}
+
+void ConfigureLED(GPIO_InitTypeDef *L)
 {
 	int i;
 
@@ -126,11 +134,22 @@ void InitLED(GPIO_InitTypeDef *L)
     for(i = 0; i < LED_NUM; i++)
     {
     	L[i].Mode = GPIO_MODE_OUTPUT_PP ;
-    	L[i].Speed = GPIO_SPEED_FREQ_LOW;
+    	L[i].Speed = GPIO_SPEED_HIGH;
     	L[i].Pull = GPIO_NOPULL;
 
 		HAL_GPIO_Init(GPIOD, &L[i]);
     }
+}
+
+void SetDAC(void)
+{
+	HAL_DAC_SetValue(&DACini, DAC_CHANNEL_2, DAC_ALIGN_8B_R, DACval);
+	HAL_DAC_Start(&DACini, DAC_CHANNEL_2);
+
+	dir ? DACval++ : DACval--;
+
+	if(DACval <= 0 || DACval >= 255)
+		dir = !dir;
 }
 
 int GetADC(int ADCval)
@@ -179,4 +198,18 @@ void SwitchLED(GPIO_InitTypeDef *L, int N)
 	{
 		HAL_GPIO_WritePin(GPIOD, L[i].Pin, GPIO_PIN_SET);
 	}
+}
+
+//Interrupt handlers
+//------------------------------------------------------//
+
+void TIM2_IRQHandler(void)
+{
+	HAL_TIM_IRQHandler(&TIM2ini);
+
+	SetDAC();
+
+	HAL_ADC_Start(&ADCini);
+	while(!(ADC1->SR & ADC_SR_EOC));
+	SwitchLED(LED, GetADC(ADC1->DR));
 }

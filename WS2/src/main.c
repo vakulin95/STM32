@@ -105,6 +105,7 @@ void ChangeDirection(void)
 	direction ? (direction = 0) : (direction = 1);
 }
 
+//Interrupt handlers
 //--------------------------------------------------------
 
 void TIM2_IRQHandler(void)
